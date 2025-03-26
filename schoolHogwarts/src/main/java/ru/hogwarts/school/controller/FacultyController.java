@@ -41,17 +41,7 @@ public class FacultyController {
     public Faculty createFaculty(@RequestBody Faculty faculty) {
         return facultyService.addFaculty(faculty);
     }
-/*
-    // Редактирование записи о факультете
-    @PutMapping
-    public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty) {
-        Faculty foundFaculty = facultyService.editFaculty(faculty);
-        if (foundFaculty == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return ResponseEntity.ok(foundFaculty);
-    }
-*/
+
     // Удаление записи о факультете по id
     @DeleteMapping("/remove/{id}")
     public ResponseEntity<Void> deleteFaculty(@PathVariable Long id) {
