@@ -8,7 +8,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
-import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 
 @Service
@@ -38,4 +37,13 @@ public class StudentService {
     public List<Student> findByAge(Integer age) {
         return studentRepository.findByAge(age);
     }
+    public List<Student> findAllByAgeBetween(Integer ageMin, Integer ageMax){
+        return studentRepository.findAllByAgeBetween(ageMin,ageMax);
+    }
+    public Faculty getFacultyByStudentId(Long studentId) {
+        return studentRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"))
+                .getFaculty();
+    }
+
 }
