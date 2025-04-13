@@ -9,6 +9,7 @@ import ru.hogwarts.school.service.FacultyService;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/faculty")
@@ -41,17 +42,7 @@ public class FacultyController {
     public Faculty createFaculty(@RequestBody Faculty faculty) {
         return facultyService.addFaculty(faculty);
     }
-/*
-    // Редактирование записи о факультете
-    @PutMapping
-    public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty) {
-        Faculty foundFaculty = facultyService.editFaculty(faculty);
-        if (foundFaculty == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return ResponseEntity.ok(foundFaculty);
-    }
-*/
+
     // Удаление записи о факультете по id
     @DeleteMapping("/remove/{id}")
     public ResponseEntity<Void> deleteFaculty(@PathVariable Long id) {
@@ -67,4 +58,19 @@ public class FacultyController {
         }
         return ResponseEntity.ok(Collections.emptyList());
     }
+    @GetMapping("/findByColorOrName")
+        public ResponseEntity<Collection<Faculty>> findFacultiesByColorOrName(@RequestParam(required = false) String color,
+                                           @RequestParam(required = false) String name)
+    {
+        if ((color != null && !color.isBlank()) || (name != null && !name.isBlank())) {
+            return ResponseEntity.ok(facultyService.findByColorIgnoreCaseOrNameIgnoreCase(color,name));
+        }
+        return ResponseEntity.ok(Collections.emptyList());
+    }
+   @GetMapping("/{facultyId}/students")
+   public List<Student> getStudentsByFacultyId(@PathVariable Long facultyId) {
+       return facultyService.getStudentsByFacultyId(facultyId);
+   }
+
+
 }
