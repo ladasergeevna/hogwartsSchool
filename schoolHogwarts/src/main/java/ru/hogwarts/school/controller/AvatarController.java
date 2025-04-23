@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+
 @RestController
 public class AvatarController {
     private final AvatarService avatarService;
@@ -32,7 +34,6 @@ public class AvatarController {
         avatarService.uploadAvatar(id, avatar);
         return ResponseEntity.ok().build();
     }
-
     @GetMapping(value = "/{id}/avatar/preview")
     public ResponseEntity<byte[]> generateDataForDB(@PathVariable Long id) {
         try {
@@ -60,6 +61,13 @@ public class AvatarController {
             is.transferTo(os);
         }
     }
+
+  @GetMapping("/avatar")
+    public ResponseEntity<List<Avatar>> getAllAvatars(@RequestParam("page") Integer pageNumber, @RequestParam("size") Integer pageSize){
+        List<Avatar> avatars = avatarService.getAllAvatars(pageNumber,pageSize);
+        return ResponseEntity.ok(avatars);
+    }
+
 
 
 }

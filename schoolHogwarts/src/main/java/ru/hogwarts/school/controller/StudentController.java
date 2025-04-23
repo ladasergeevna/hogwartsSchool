@@ -77,5 +77,15 @@ public class StudentController {
     public Faculty getFacultyByStudentId(@PathVariable Long studentId) {
         return studentService.getFacultyByStudentId(studentId);
     }
+    // Получение общего количества студентов
+    @GetMapping  ("/getNumberOfStudents")
+    public Integer getNumberAllStudents (){return studentService.getNumberAllStudents();}
 
+    // Получение среднего возраста студентов
+    @GetMapping  ("/getAverageAgeOfStudents")
+    public Integer getAverageAgeOfStudents (){return studentService.getAverageAgeOfStudents();}
+
+    // Получение списка из 5 студентов
+    @GetMapping  ("/getTopFiveStudents")
+    public List<Student> getTopFiveStudents (){return studentService.getTopFiveStudents();}
 }

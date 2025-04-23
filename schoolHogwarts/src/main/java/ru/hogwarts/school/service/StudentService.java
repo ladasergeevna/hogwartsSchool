@@ -15,6 +15,7 @@ import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.AvatarRepository;
+import ru.hogwarts.school.repository.GetStudentsInfoRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
@@ -23,10 +24,12 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final GetStudentsInfoRepository getStudentsInfoRepository;
 
 
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, GetStudentsInfoRepository getStudentsInfoRepository) {
         this.studentRepository = studentRepository;
+        this.getStudentsInfoRepository = getStudentsInfoRepository;
     }
 
     public Student addStudent(Student student) {
@@ -56,5 +59,9 @@ public class StudentService {
                 .orElseThrow(() -> new RuntimeException("Student not found"))
                 .getFaculty();
     }
+
+    public Integer getNumberAllStudents () {return getStudentsInfoRepository.getNumberAllStudents();}
+    public Integer getAverageAgeOfStudents () {return getStudentsInfoRepository.getAverageAgeOfStudents();}
+    public List<Student> getTopFiveStudents () {return  getStudentsInfoRepository.getTopFiveStudents();}
 
 }
