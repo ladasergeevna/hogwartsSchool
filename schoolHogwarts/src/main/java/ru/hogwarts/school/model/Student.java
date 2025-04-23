@@ -18,12 +18,15 @@ public class Student {
     public Student() {
     }
 
-    public Student(long id, String name, int age) {
+ /*   public Student(long id, String name, int age) {
         this.id = id;
         this.name = name;
         this.age = age;
-    }
-
+    }*/
+ public Student(String name, int age) {
+     this.name = name;
+     this.age = age;
+ }
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -74,4 +77,8 @@ public class Student {
     public Faculty getFaculty() {
         return faculty;
     }
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
+    }
+
 }

@@ -1,12 +1,23 @@
 package ru.hogwarts.school.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.service.AvatarService;
 import ru.hogwarts.school.service.StudentService;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -66,4 +77,15 @@ public class StudentController {
     public Faculty getFacultyByStudentId(@PathVariable Long studentId) {
         return studentService.getFacultyByStudentId(studentId);
     }
+    // Получение общего количества студентов
+    @GetMapping  ("/getNumberOfStudents")
+    public Integer getNumberAllStudents (){return studentService.getNumberAllStudents();}
+
+    // Получение среднего возраста студентов
+    @GetMapping  ("/getAverageAgeOfStudents")
+    public Integer getAverageAgeOfStudents (){return studentService.getAverageAgeOfStudents();}
+
+    // Получение списка из 5 студентов
+    @GetMapping  ("/getTopFiveStudents")
+    public List<Student> getTopFiveStudents (){return studentService.getTopFiveStudents();}
 }
