@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,6 +27,7 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
     private final GetStudentsInfoRepository getStudentsInfoRepository;
+    private static final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
 
     public StudentService(StudentRepository studentRepository, GetStudentsInfoRepository getStudentsInfoRepository) {
@@ -33,35 +36,51 @@ public class StudentService {
     }
 
     public Student addStudent(Student student) {
+        logger.info("Was invoked method addStudent");
         return studentRepository.save(student);
     }
 
     public List<Student> getAllStudents() {
+        logger.info("Was invoked method getAllStudents");
         return studentRepository.findAll();
     }
 
     public Student findStudent(Long id) {
+        logger.info("Was invoked method findStudent");
         return studentRepository.findById(id).get();
     }
 
     public void deleteStudent(Long id) {
+        logger.info("Was invoked method deleteStudent");
         studentRepository.deleteById(id);
     }
 
     public List<Student> findByAge(Integer age) {
+        logger.info("Was invoked method findByAge");
         return studentRepository.findByAge(age);
     }
     public List<Student> findAllByAgeBetween(Integer ageMin, Integer ageMax){
+        logger.info("Was invoked method findAllByAgeBetween");
         return studentRepository.findAllByAgeBetween(ageMin,ageMax);
     }
     public Faculty getFacultyByStudentId(Long studentId) {
+        logger.info("Was invoked method getFacultyByStudentId");
         return studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found"))
+                .orElseThrow(() -> {
+                    logger.error("There is not faculty for student with id = {}", studentId);
+                    return new RuntimeException("Student not found");
+                })
                 .getFaculty();
     }
 
-    public Integer getNumberAllStudents () {return getStudentsInfoRepository.getNumberAllStudents();}
-    public Integer getAverageAgeOfStudents () {return getStudentsInfoRepository.getAverageAgeOfStudents();}
-    public List<Student> getTopFiveStudents () {return  getStudentsInfoRepository.getTopFiveStudents();}
+    public Integer getNumberAllStudents () {
+        logger.debug("Was invoked method getNumberAllStudents");
+        return getStudentsInfoRepository.getNumberAllStudents();}
+    public Integer getAverageAgeOfStudents () {
+        logger.debug("Was invoked method getAverageAgeOfStudents");
+        return getStudentsInfoRepository.getAverageAgeOfStudents();}
+    public List<Student> getTopFiveStudents () {
+        logger.debug("Was invoked method getTopFiveStudents");
+        return  getStudentsInfoRepository.getTopFiveStudents();}
 
 }
